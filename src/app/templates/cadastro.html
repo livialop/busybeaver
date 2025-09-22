@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - Loja para Castores{% endblock %}
+
+{% block content %}
+<h2>Cadastro de Usuário</h2>
+
+<form method="POST">
+    <p>Nome: <input type="text" name="name" required></p>
+    <p>Email: <input type="email" name="email" required></p>
+    <p>Senha: <input type="password" name="password" required></p>
+    <button type="submit">Cadastrar</button>
+</form>
+
+<p>Já tem conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+{% endblock %}

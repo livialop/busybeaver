@@ -1,7 +1,7 @@
 # pip install mysqlclient
 # pip install sqlalchemy
 # pip install sqlalchemy_utils
-from sqlalchemy import create_engine, String, DateTime, Integer, ForeignKey, Text
+from sqlalchemy import create_engine, String, DateTime, Integer, ForeignKey, Text, Float
 from sqlalchemy.orm import Session, Mapped, mapped_column, DeclarativeBase, sessionmaker, relationship
 from sqlalchemy.sql import func
 from sqlalchemy_utils import create_database, database_exists
@@ -9,12 +9,10 @@ from typing import List, Optional
 from datetime import datetime
 
 DATABASE = 'mysql+mysqldb://root@localhost/busybeaver'
-# busybeaver - nome
 engine = create_engine(DATABASE)
 
 class Base(DeclarativeBase):
     pass
-
 
 class User(Base):
     __tablename__ = "users"
@@ -23,26 +21,18 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(120))
     password: Mapped[str] = mapped_column(String(300))
 
-    # Relationship with posts - A post can have only one user as its owner.
-    posts: Mapped[List["Post"]] = relationship(back_populates="users")
-
     def __repr__(self):
         return f"User(id={self.id!r}, name={self.name!r}, email={self.email!r})"
-    
 
-class Post(Base):
-    __tablename__ = "posts"
+class Product(Base):
+    __tablename__ = "products"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    title: Mapped[Optional[str]] = mapped_column(String(30))
-    content: Mapped[str] = mapped_column(Text, nullable=False)
-    post_date: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    nome: Mapped[str] = mapped_column(String(100), nullable=False)
+    preco: Mapped[float] = mapped_column(Float, nullable=False)
+    descricao: Mapped[str] = mapped_column(String(200))  
 
-    # Foreign Key with table users
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
-
-    # Relationship with user -> One user can have as many posts as he wants.
-    user: Mapped["User"] = relationship(back_populates="posts")
-
+    def __repr__(self):
+        return f"Product(id={self.id!r}, nome={self.nome!r}, preco={self.preco!r})"
 
 def create_db(engine):
     # Creating database
@@ -50,7 +40,6 @@ def create_db(engine):
         if not database_exists(engine.url):
             create_database(engine.url)
             print(database_exists(engine.url))
-
     except Exception as e:
         print(f"Erro para criar o banco: {e}")
         return
@@ -68,5 +57,3 @@ def get_session():
 
 if __name__ == "__main__":
     create_db(engine=engine)
-
-# EXECUÇÃO DO ARQ -> É preciso digitar no terminal python ./model.py

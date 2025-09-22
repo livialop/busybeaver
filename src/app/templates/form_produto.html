@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if produto %}Editar Produto{% else %}Novo Produto{% endif %} - Loja para Castores
+{% endblock %}
+
+{% block content %}
+<h2>{% if produto %}Editar{% else %}Novo{% endif %} Produto</h2>
+
+<form method="POST">
+    <p>Nome: <input type="text" name="nome" value="{{ produto.nome if produto }}" required></p>
+    <p>Preço: <input type="number" step="0.01" name="preco" value="{{ produto.preco if produto }}" required></p>
+    <p>Descrição: <textarea name="descricao">{{ produto.descricao if produto }}</textarea></p>
+    <button type="submit">Salvar</button>
+    <a href="{{ url_for('listar_produtos') }}">Cancelar</a>
+</form>
+{% endblock %}

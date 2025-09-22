@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Loja para Castores{% endblock %}
+
+{% block content %}
+<h2>Bem-vindo à Loja para Castores!</h2>
+<p>Encontre os melhores produtos para seu castor.</p>
+<p><a href="{{ url_for('listar_produtos') }}">Ver produtos disponíveis</a></p>
+{% endblock %}

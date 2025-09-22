@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Loja para Castores{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+
+<form method="POST">
+    <p>Email: <input type="email" name="email" required></p>
+    <p>Senha: <input type="password" name="password" required></p>
+    <button type="submit">Entrar</button>
+</form>
+
+<p>Não tem conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+{% endblock %}
