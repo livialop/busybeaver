@@ -14,7 +14,9 @@ engine = create_engine(DATABASE)
 class Base(DeclarativeBase):
     pass
 
-class User(Base):
+from flask_login import UserMixin
+
+class User(Base, UserMixin):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(120))
