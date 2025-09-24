@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% block head %}
+
     <title>{% block title %}Loja para Castores{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}">
+    {% endblock head %}
 </head>
 <body>
     <header>
