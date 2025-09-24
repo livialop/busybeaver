@@ -17,6 +17,7 @@ class Base(DeclarativeBase):
 from flask_login import UserMixin
 
 class User(Base, UserMixin):
+    '''Criação da tabela de usuários no banco de dados.'''
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(120))
@@ -27,6 +28,7 @@ class User(Base, UserMixin):
         return f"User(id={self.id!r}, name={self.name!r}, email={self.email!r})"
 
 class Product(Base):
+    '''Criação da tabela de produtos no banco de dados.'''
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nome: Mapped[str] = mapped_column(String(100), nullable=False)

@@ -20,10 +20,12 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
+    '''Página inicial da aplicação'''
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''Rota para login de usuários'''
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -41,6 +43,8 @@ def login():
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
+    '''Rota para cadastro de novos usuários. Caso o usuário possua cadastro, ele é redirecionado para a página de login.
+        Se o cadastro for realizado com sucesso, o usuário é redirecionado para a página de login.'''
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -62,6 +66,7 @@ def cadastro():
 @app.route('/logout')
 @login_required
 def logout():
+    '''Rota para logout de usuários. O acesso a ele só é permitido para usuários logados.'''
     logout_user()
     return redirect(url_for('index'))
 
@@ -69,6 +74,7 @@ def logout():
 
 @app.route('/produtos')
 def listar_produtos():
+    '''Rota para listar todos os produtos disponíveis. É possível visualizar os produtos sem estar logado.'''
     session = get_session()
     produtos = session.query(Product).all()
     return render_template('produtos.html', produtos=produtos)
@@ -76,6 +82,7 @@ def listar_produtos():
 @app.route('/produtos/novo', methods=['GET', 'POST'])
 @login_required
 def criar_produto():
+    '''Rota para criar um novo produto. O acesso a ele só é permitido para usuários logados.'''
     if request.method == 'POST':
         nome = request.form['nome']
         preco = float(request.form['preco'])
@@ -97,6 +104,7 @@ def criar_produto():
 @app.route('/produtos/editar/<int:id>', methods=['GET', 'POST'])
 @login_required
 def editar_produto(id):
+    '''CRUD de edição de produtos. O acesso a ele só é permitido para usuários logados.'''
     session = get_session()
     produto = session.get(Product, id)
     
@@ -121,6 +129,7 @@ def editar_produto(id):
 @app.route('/produtos/excluir/<int:id>')
 @login_required
 def excluir_produto(id):
+    '''CRUD de exclusão de produtos. O acesso a ele só é permitido para usuários logados.'''
     session = get_session()
     produto = session.get(Product, id)
     
